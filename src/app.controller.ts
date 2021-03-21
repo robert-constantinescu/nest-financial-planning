@@ -12,11 +12,11 @@ export class AppController {
     private authService: AuthService,
   ) {}
 
-  @UseGuards(LocalAuthGuard)
+  @NoAuth()
   @Post('auth/login')
   async login(@Request() req) {
     console.log(req);
-    return this.authService.login(req.user);
+    return this.authService.login(req.body);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -28,6 +28,9 @@ export class AppController {
   @NoAuth()
   @Get('hello')
   getHello(): string {
+    console.log('hello');
     return this.appService.getHello();
   }
 }
+
+
