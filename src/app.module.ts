@@ -6,9 +6,11 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { IncomeModule } from './income/income.module';
+import { ExpenseModule } from './expense/expense.module';
 
 @Module({
-  imports: [UserModule, AuthModule, TypeOrmModule.forRoot()],
+  imports: [UserModule, AuthModule, TypeOrmModule.forRoot(), IncomeModule, ExpenseModule],
   controllers: [AppController],
   providers: [
     AppService,
