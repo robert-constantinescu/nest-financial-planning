@@ -11,9 +11,9 @@ export class IncomeService {
     constructor(@InjectRepository(IncomeRepository) private incomeRepository: IncomeRepository) {
     }
 
-    async create(createIncomeDto: CreateIncomeDto): Promise<Income> {
+    public async create(createIncomeDto: CreateIncomeDto): Promise<Income> {
         try {
-            return this.incomeRepository.addIncome(createIncomeDto);
+            return await this.incomeRepository.addIncome(createIncomeDto);
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }

@@ -1,5 +1,6 @@
 import {Column, Entity, OneToMany, PrimaryGeneratedColumn} from "typeorm";
 import {Income} from "./income.entity";
+import {Expense} from "./expense.entity";
 
 @Entity()
 export class User {
@@ -16,8 +17,11 @@ export class User {
     @Column()
     password: string;
 
-    @OneToMany(() => Income, (income) => income.userId, {eager: true})
+    @OneToMany(() => Income, (income) => income.userId, )
     incomes: Promise<Income[]>
+
+    @OneToMany(() => Expense, (expense) => expense.userId)
+    expenses: Promise<Expense[]>
 }
 
 
