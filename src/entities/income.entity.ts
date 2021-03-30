@@ -15,6 +15,9 @@ export class Income {
     @Column()
     amount: number;
 
+    @Column({nullable: true})
+    name: string;
+
     @Column()
     recurrence: Recurrence;
 }

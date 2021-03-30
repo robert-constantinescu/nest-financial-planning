@@ -24,4 +24,7 @@ export class IncomeRepository extends Repository<Income> {
     }
 
 
+    public async removeIncome(incomeId: number) {
+        return this.delete({id:incomeId});
+    }
 }

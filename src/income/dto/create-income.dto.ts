@@ -17,5 +17,10 @@ export class CreateIncomeDto {
     @IsNotEmpty()
     @IsString()
     recurrence: string;
+
+    @IsNotEmpty()
+    @IsString()
+    name: string;
+
 }
 

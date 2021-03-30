@@ -19,4 +19,13 @@ export class IncomeService {
         }
 
     }
+
+    public async remove(incomeId: number): Promise<string> {
+        try {
+            await this.incomeRepository.removeIncome(incomeId);
+            return "Successfully deleted income"
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
+    }
 }

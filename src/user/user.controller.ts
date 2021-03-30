@@ -6,6 +6,7 @@ import {NoAuth} from "../auth/no-auth.decorator";
 import {ApiBearerAuth} from "@nestjs/swagger";
 
 @Controller('/api/user')
+@ApiBearerAuth()
 export class UserController {
 
     constructor(private userService: UserService) {  }
