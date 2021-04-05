@@ -13,10 +13,13 @@ export class Income {
     userId: number;
 
     @Column()
-    amount: number;
+    currentAmount: number;
 
     @Column({nullable: true})
-    name: string;
+    goalAmount: number;
+
+    @Column({nullable: true})
+    type: string;
 
     @Column()
     recurrence: Recurrence;

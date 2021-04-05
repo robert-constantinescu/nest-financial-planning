@@ -11,9 +11,10 @@ export class IncomeService {
     constructor(@InjectRepository(IncomeRepository) private incomeRepository: IncomeRepository) {
     }
 
-    public async create(createIncomeDto: CreateIncomeDto): Promise<Income> {
+    public async create(incomeDto: CreateIncomeDto): Promise<Income> {
         try {
-            return await this.incomeRepository.addIncome(createIncomeDto);
+            let income = CreateIncomeDto.incomeEntityFromDto(incomeDto)
+            return await this.incomeRepository.addIncome(income);
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }
@@ -28,4 +29,17 @@ export class IncomeService {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }
     }
+
+    public async saveIncomeList(incomeDtoList: CreateIncomeDto[]) {
+        try {
+            for (let incomeDto of incomeDtoList) {
+                let income = CreateIncomeDto.incomeEntityFromDto(incomeDto)
+                await this.incomeRepository.addIncome(income);
+            }
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
+    }
+
+
 }

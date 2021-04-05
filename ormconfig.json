@@ -6,6 +6,9 @@
   "password": "admin",
   "database": "fire",
   "entities": ["dist/**/*.entity{.ts,.js}"],
+  "migrations": ["dist/db/migrations/*{.ts,.js}"],
+  "migrationsTableName": "migrations_table",
+  "migrationsRun": true,
   "autoLoadEntities": true,
   "synchronize": true,
   "logging": true

@@ -13,7 +13,7 @@ export class AppController {
   ) {}
 
   @NoAuth()
-  @Post('auth/login')
+  @Post('api/auth/login')
   async login(@Request() req) {
     console.log(req);
     return this.authService.login(req.body);
