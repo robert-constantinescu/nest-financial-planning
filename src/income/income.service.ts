@@ -1,9 +1,7 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {IncomeRepository} from "./income.repository";
-import {CreateIncomeDto} from "./dto/create-income.dto";
 import {Income} from "../entities/income.entity";
-import {ExtractJwt} from "passport-jwt";
 
 @Injectable()
 export class IncomeService {
@@ -22,7 +20,7 @@ export class IncomeService {
 
     }
 
-    public async remove(incomeId: number): Promise<string> {
+    public async delete(incomeId: number[]): Promise<string> {
         try {
             await this.incomeRepository.removeIncome(incomeId);
             return "Successfully deleted income"
@@ -57,7 +55,9 @@ export class IncomeService {
         }
     }
 
-    private async update(requestIncome: Income) {
+    public async update(requestIncome: Income) {
         return await this.incomeRepository.updateIncome(requestIncome);
     }
+
+
 }

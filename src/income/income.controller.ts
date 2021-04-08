@@ -40,8 +40,8 @@ export class IncomeController {
         return this.incomeService.getIncomeList(request.user.userId)
     }
 
-    @Delete('/:incomeId')
-    public async delete( @Param('incomeId') incomeId: number): Promise<string> {
-        return await this.incomeService.remove(incomeId);
+    @Delete('list')
+    public async delete( @Body() incomeId: number[]): Promise<string> {
+        return await this.incomeService.delete(incomeId);
     }
 }

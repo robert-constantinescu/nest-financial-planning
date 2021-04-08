@@ -18,8 +18,8 @@ export class IncomeRepository extends Repository<Income> {
         return await this.update({id:income.id}, income);
     }
 
-    public async removeIncome(incomeId: number) {
-        return await this.delete({id:incomeId});
+    public async removeIncome(incomeId: number[]) {
+        return await this.delete(incomeId);
     }
 
 
