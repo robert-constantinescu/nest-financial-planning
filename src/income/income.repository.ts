@@ -22,8 +22,6 @@ export class IncomeRepository extends Repository<Income> {
         return await this.delete(incomeId);
     }
 
-
-
     public async findAll(userId: number): Promise<Income[]> {
         return await this.find({where: {userId: userId}});
     }

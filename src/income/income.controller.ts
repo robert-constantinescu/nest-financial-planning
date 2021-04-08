@@ -41,7 +41,7 @@ export class IncomeController {
     }
 
     @Delete('list')
-    public async delete( @Body() incomeId: number[]): Promise<string> {
-        return await this.incomeService.delete(incomeId);
+    public async delete( @Body('ids') incomeIds: number[]): Promise<string> {
+        return await this.incomeService.delete(incomeIds);
     }
 }
