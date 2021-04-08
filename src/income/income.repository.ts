@@ -11,11 +11,20 @@ export class IncomeRepository extends Repository<Income> {
 
     public async addIncome( income: Income ): Promise<Income> {
         return await this.save(income);
+
     }
 
+    public async updateIncome( income: Income) {
+        return await this.update({id:income.id}, income);
+    }
 
     public async removeIncome(incomeId: number) {
-        return this.delete({id:incomeId});
+        return await this.delete({id:incomeId});
     }
 
+
+
+    public async findAll(userId: number): Promise<Income[]> {
+        return await this.find({where: {userId: userId}});
+    }
 }

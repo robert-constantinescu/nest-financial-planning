@@ -1,7 +1,20 @@
-import {Body, Controller, Delete, Get, Param, Post} from '@nestjs/common';
+import {
+    Body,
+    ClassSerializerInterceptor,
+    Controller,
+    Delete,
+    Get,
+    Param,
+    Post,
+    Req,
+    Request,
+    UseInterceptors, UsePipes, ValidationPipe
+} from '@nestjs/common';
 import {IncomeService} from "./income.service";
 import {CreateIncomeDto} from "./dto/create-income.dto";
 import {Income} from "../entities/income.entity";
+import {User} from "../user/user.decorator";
+import {plainToClass} from "class-transformer";
 
 @Controller('/api/income')
 export class IncomeController {
@@ -10,18 +23,21 @@ export class IncomeController {
     }
 
     @Post()
-    public async create( @Body() createIncomeDto: CreateIncomeDto ): Promise<Income> {
-        return await this.incomeService.create(createIncomeDto);
+    public async create( @Body() createIncomeDto: CreateIncomeDto, @User('userId') userId: number ): Promise<Income> {
+        const income = plainToClass(Income, createIncomeDto);
+        return await this.incomeService.create(income, userId);
     }
 
     @Post('list')
-    public async saveIncomeList( @Body() incomeDtoList: CreateIncomeDto[] ) {
-        return await this.incomeService.saveIncomeList(incomeDtoList);
+    @UseInterceptors(ClassSerializerInterceptor)
+    public async saveIncomeList( @Body() incomeDtoList: CreateIncomeDto[], @User('userId') userId: number) {
+        const incomeList = plainToClass(Income, incomeDtoList);
+        return await this.incomeService.saveIncomeList(incomeList, userId);
     }
 
     @Get('list')
-    public async retrieveIncomeList( @Body() userId: number ) {
-        // return await this.incomeService.saveIncomeList(incomeDtoList);
+    public async retrieveIncomeList( @Request() request) {
+        return this.incomeService.getIncomeList(request.user.userId)
     }
 
     @Delete('/:incomeId')
