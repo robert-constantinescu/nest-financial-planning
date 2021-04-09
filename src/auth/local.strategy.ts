@@ -13,7 +13,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
     console.log('validatex');
     const user = await this.authService.validateUser( credentials );
     if (!user) {
-      throw new UnauthorizedException();
+      throw new UnauthorizedException('Username/password is wrong');
     }
     return user;
   }

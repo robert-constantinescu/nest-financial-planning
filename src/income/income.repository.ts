@@ -11,7 +11,6 @@ export class IncomeRepository extends Repository<Income> {
 
     public async addIncome( income: Income ): Promise<Income> {
         return await this.save(income);
-
     }
 
     public async updateIncome( income: Income) {

@@ -51,7 +51,7 @@ export class CreateIncomeDto {
     public static incomeEntityFromDto(incomeDto: CreateIncomeDto, userId: number): Income {
         const { currentAmount, goalAmount, recurrence, type, id } = incomeDto;
         const income = new Income();
-        // income.id = id.toString() === "" ? null : id;
+        income.id = id.toString() === "" ? null : id;
         income.userId = userId;
         income.currentAmount = currentAmount;
         income.goalAmount = goalAmount;

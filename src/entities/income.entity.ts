@@ -1,6 +1,7 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Recurrence} from "../common/constants/recurrence.enum";
 import {User} from "./user.entity";
+import {Transform} from "class-transformer";
 
 @Entity()
 export class Income {

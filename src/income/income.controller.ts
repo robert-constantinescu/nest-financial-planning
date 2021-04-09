@@ -3,7 +3,7 @@ import {
     ClassSerializerInterceptor,
     Controller,
     Delete,
-    Get,
+    Get, HttpException, HttpStatus,
     Param,
     Post,
     Req,
@@ -24,14 +24,19 @@ export class IncomeController {
 
     @Post()
     public async create( @Body() createIncomeDto: CreateIncomeDto, @User('userId') userId: number ): Promise<Income> {
-        const income = plainToClass(Income, createIncomeDto);
-        return await this.incomeService.create(income, userId);
+        try {
+            const income = CreateIncomeDto.incomeEntityFromDto(createIncomeDto, userId);
+            return await this.incomeService.create(income, userId);
+        } catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST)
+        }
     }
 
     @Post('list')
     @UseInterceptors(ClassSerializerInterceptor)
     public async saveIncomeList( @Body() incomeDtoList: CreateIncomeDto[], @User('userId') userId: number) {
-        const incomeList = plainToClass(Income, incomeDtoList);
+        const incomeList: Income[] = []
+        incomeDtoList.forEach(incomeDto => incomeList.push(CreateIncomeDto.incomeEntityFromDto(incomeDto, userId)));
         return await this.incomeService.saveIncomeList(incomeList, userId);
     }
 

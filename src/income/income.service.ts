@@ -32,7 +32,8 @@ export class IncomeService {
     public async saveIncomeList(incomeList: Income[], userId): Promise<void> {
         try {
             for (let requestIncome of incomeList) {
-                if (requestIncome.id.toString() == "") {
+                if (requestIncome.id == null) {
+                    requestIncome.id = 0;
                     await this.create(requestIncome, userId)
                 } else {
                     const incomeFromDb = await this.incomeRepository.findOne(requestIncome.id);
