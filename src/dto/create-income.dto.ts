@@ -1,6 +1,6 @@
 import {IsNotEmpty, IsNumber, IsString} from 'class-validator';
-import {Income} from "../../entities/income.entity";
-import {Recurrence} from "../../common/constants/recurrence.enum";
+import {Income} from "../entities/income.entity";
+import {Recurrence} from "../common/constants/recurrence.enum";
 
 
 export class CreateIncomeDto {

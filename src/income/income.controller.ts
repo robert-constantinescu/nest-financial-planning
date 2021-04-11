@@ -1,20 +1,8 @@
-import {
-    Body,
-    ClassSerializerInterceptor,
-    Controller,
-    Delete,
-    Get, HttpException, HttpStatus,
-    Param,
-    Post,
-    Req,
-    Request,
-    UseInterceptors, UsePipes, ValidationPipe
-} from '@nestjs/common';
+import {Body, Controller, Delete, Get, HttpException, HttpStatus, Post, Request} from '@nestjs/common';
 import {IncomeService} from "./income.service";
-import {CreateIncomeDto} from "./dto/create-income.dto";
+import {CreateIncomeDto} from "../dto/create-income.dto";
 import {Income} from "../entities/income.entity";
 import {User} from "../user/user.decorator";
-import {plainToClass} from "class-transformer";
 
 @Controller('/api/income')
 export class IncomeController {
@@ -33,7 +21,6 @@ export class IncomeController {
     }
 
     @Post('list')
-    @UseInterceptors(ClassSerializerInterceptor)
     public async saveIncomeList( @Body() incomeDtoList: CreateIncomeDto[], @User('userId') userId: number) {
         const incomeList: Income[] = []
         incomeDtoList.forEach(incomeDto => incomeList.push(CreateIncomeDto.incomeEntityFromDto(incomeDto, userId)));

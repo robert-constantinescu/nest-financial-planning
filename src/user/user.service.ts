@@ -1,5 +1,5 @@
 import {HttpException, HttpStatus, Injectable, NotFoundException} from '@nestjs/common';
-import {CreateUserDto} from "./dto/create-user.dto";
+import {CreateUserDto} from "../dto/create-user.dto";
 import {InjectRepository} from "@nestjs/typeorm";
 import {UserRepository} from "./repositories/user.repository";
 import {User} from "../entities/user.entity";
@@ -18,11 +18,10 @@ export class UserService {
   }
 
   public async findByUsername(username: string): Promise<User> {
-    const user = await this.userRepository.findOneByUsername(username);
-    if (!user) {
+    if (!await this.usernameExist(username)) {
       throw new NotFoundException(`User #${username} not found`);
     }
-    return user;
+    return await this.userRepository.findOneByUsername(username);
   }
 
   public async findById(userId: number) {
@@ -42,6 +41,11 @@ export class UserService {
       throw new HttpException(err, HttpStatus.BAD_REQUEST);
     }
   }
+
+  public async usernameExist(username: string): Promise<boolean> {
+    const user = await this.userRepository.findOneByUsername(username);
+    return user !== undefined;
+}
 
 
 }

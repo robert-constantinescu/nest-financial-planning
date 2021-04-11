@@ -1,6 +1,6 @@
 import {Body, Controller, Delete, Param, Post} from '@nestjs/common';
 import {ExpenseService} from './expense.service';
-import {CreateExpenseDto} from "./dto/create-expense.dto";
+import {CreateExpenseDto} from "../dto/create-expense.dto";
 import {Expense} from "../entities/expense.entity";
 
 @Controller('/api/expense')

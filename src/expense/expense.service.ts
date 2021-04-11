@@ -1,7 +1,7 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {ExpenseRepository} from "./expense.repository";
-import {CreateExpenseDto} from "./dto/create-expense.dto";
+import {CreateExpenseDto} from "../dto/create-expense.dto";
 import {Expense} from "../entities/expense.entity";
 
 @Injectable()

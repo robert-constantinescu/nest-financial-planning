@@ -1,7 +1,7 @@
 import {Injectable} from "@nestjs/common";
 import {EntityRepository, getConnection, Repository} from "typeorm";
 import {Expense} from "../entities/expense.entity";
-import {CreateExpenseDto} from "./dto/create-expense.dto";
+import {CreateExpenseDto} from "../dto/create-expense.dto";
 import {Recurrence} from "../common/constants/recurrence.enum";
 
 
