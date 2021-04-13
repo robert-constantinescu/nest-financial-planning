@@ -1,6 +1,6 @@
 interface Credentials {
-    username: string;
+    email: string;
     password: string;
     userId?: number;
-    email?: string;
+    username?: string;
 }

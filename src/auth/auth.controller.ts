@@ -21,6 +21,14 @@ export class AuthController {
     @NoAuth()
     @Post('signup')
     async signup (@Body() credentials: Credentials) {
-        return await this.authService.createUser(credentials)
+        await this.authService.createUser(credentials)
+        return this.authService.login(credentials);
     }
+
+    @Post('validate-token')
+    async validateJwt (@Body() payload: { jwtToken: string }) {
+        return { isValid: true};
+    }
+
+
 }
