@@ -1,12 +1,8 @@
 import {CallHandler, ExecutionContext, Injectable, NestInterceptor} from "@nestjs/common";
 import {Observable} from "rxjs";
-import {map, tap} from "rxjs/operators";
+import {map} from "rxjs/operators";
+import {Response} from "../interfaces/response.interface";
 
-
-export interface Response<T> {
-    body: T
-    successful: boolean
-}
 
 @Injectable()
 export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
