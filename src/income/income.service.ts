@@ -57,8 +57,11 @@ export class IncomeService {
     }
 
     public async update(requestIncome: Income) {
-        return await this.incomeRepository.updateIncome(requestIncome);
+        try {
+            return await this.incomeRepository.updateIncome(requestIncome);
+        }catch (err) {
+            throw new HttpException(err, HttpStatus.BAD_REQUEST);
+        }
     }
-
 
 }
