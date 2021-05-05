@@ -1,4 +1,6 @@
 export interface Response<T> {
-    body: T
-    successful: boolean
+    body?: T;
+    successful: boolean;
+    statusCode: number;
+    message: string;
 }

@@ -14,7 +14,9 @@ export class ResponseInterceptor<T> implements NestInterceptor<T, Response<T>> {
                 map(
                     body =>
                         ({
-                            successful: true,
+                            successful: response.successful,
+                            message: response.message,
+                            statusCode: response.statusCode,
                             body
                         })
                     )

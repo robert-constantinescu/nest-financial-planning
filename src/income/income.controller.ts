@@ -3,8 +3,9 @@ import {IncomeService} from "./income.service";
 import {CreateIncomeDto} from "../dto/create-income.dto";
 import {Income} from "../entities/income.entity";
 import {User} from "../user/user.decorator";
+import {DeleteResult} from "typeorm";
 
-@Controller('/api/income')
+@Controller('/income')
 export class IncomeController {
 
     constructor(private incomeService: IncomeService) {

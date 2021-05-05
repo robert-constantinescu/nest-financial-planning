@@ -2,6 +2,7 @@ import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {IncomeRepository} from "./income.repository";
 import {Income} from "../entities/income.entity";
+import {DeleteResult} from "typeorm";
 
 @Injectable()
 export class IncomeService {
@@ -12,8 +13,8 @@ export class IncomeService {
 
     public async create(income: Income, userId: number): Promise<Income> {
         try {
-            // let income = CreateIncomeDto.incomeEntityFromDto(incomeDto, userId)
-            return await this.incomeRepository.addIncome(income);
+            const newIncome = await this.incomeRepository.addIncome(income);
+            return newIncome;
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }
@@ -23,7 +24,7 @@ export class IncomeService {
     public async delete(incomeId: number[]): Promise<string> {
         try {
             await this.incomeRepository.removeIncome(incomeId);
-            return "Successfully deleted income"
+            return "Incomes were deleted successfully";
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }
@@ -50,7 +51,8 @@ export class IncomeService {
 
     public async getIncomeList(userId: number): Promise<Income[]> {
         try {
-            return await this.incomeRepository.findAll(userId);
+            const incomeList = await this.incomeRepository.findAll(userId);
+            return incomeList;
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }
