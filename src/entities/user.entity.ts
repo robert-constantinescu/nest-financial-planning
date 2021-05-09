@@ -19,8 +19,8 @@ export class User {
     @Exclude() //use this to hide data
     password: string;
 
-    @OneToMany(() => Income, (income) => income.userId, )
-    incomes: Promise<Income[]>
+    @OneToMany(() => Income, (income) => income.user, )
+    incomes: Income[]
 
     @OneToMany(() => Expense, (expense) => expense.userId)
     expenses: Promise<Expense[]>

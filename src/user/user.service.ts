@@ -9,7 +9,7 @@ import {User} from "../entities/user.entity";
 export class UserService {
 
   constructor(
-      @InjectRepository(UserRepository) private userRepository: UserRepository
+      @InjectRepository(UserRepository) private readonly userRepository: UserRepository
   ) {
   }
 
@@ -24,7 +24,7 @@ export class UserService {
     return await this.userRepository.findOneByUsername(username);
   }
 
-  public async findById(userId: number) {
+  public async findById(userId: number): Promise<User> {
     const user = await this.userRepository.findOneByUserId(userId);
     if (!user) {
       throw new NotFoundException(`User #${userId} not found`);

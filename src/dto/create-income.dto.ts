@@ -1,30 +1,35 @@
-import {IsNotEmpty, IsNumber, IsString} from 'class-validator';
 import {Income} from "../entities/income.entity";
 import {Recurrence} from "../common/constants/recurrence.enum";
+import {IsNotEmpty, IsNumber, IsString} from "class-validator";
+import {Type} from "class-transformer";
 
 
 export class CreateIncomeDto {
 
     @IsNumber()
-    id: number;
+    @Type(() => Number)
+    readonly id: number;
 
     @IsNotEmpty()
     @IsNumber()
-    currentAmount: number;
+    @Type(() => Number)
+    readonly currentAmount: number;
 
     @IsNotEmpty()
     @IsNumber()
-    goalAmount: number;
-
-    @IsNumber()
-    yearlyAmount: number;
+    @Type(() => Number)
+    readonly goalAmount: number;
 
     @IsNotEmpty()
+    @IsNumber()
+    @Type(() => Number)
+    readonly yearlyAmount: number;
+
     @IsString()
-    recurrence: string;
+    readonly type: string;
 
     @IsNotEmpty()
-    type: Recurrence;
+    readonly recurrence: Recurrence;
 
 
     public equalsIncomeEntity(incomeToCompare: Income): boolean{
@@ -36,29 +41,29 @@ export class CreateIncomeDto {
         }
         return true;
     }
+    //
+    // public static initDto(incomeDto: CreateIncomeDto): CreateIncomeDto {
+    //     const { currentAmount, goalAmount, recurrence, type, id } = incomeDto;
+    //     const income = new CreateIncomeDto();
+    //     income.id = id.toString() === "" ? null : id;
+    //     income.currentAmount = currentAmount;
+    //     income.goalAmount = goalAmount;
+    //     income.type = type;
+    //     income.recurrence = Recurrence[recurrence];
+    //     return income;
+    // }
 
-    public static initDto(incomeDto: CreateIncomeDto): CreateIncomeDto {
-        const { currentAmount, goalAmount, recurrence, type, id } = incomeDto;
-        const income = new CreateIncomeDto();
-        income.id = id.toString() === "" ? null : id;
-        income.currentAmount = currentAmount;
-        income.goalAmount = goalAmount;
-        income.type = type;
-        income.recurrence = Recurrence[recurrence];
-        return income;
-    }
-
-    public static incomeEntityFromDto(incomeDto: CreateIncomeDto, userId: number): Income {
-        const { currentAmount, goalAmount, recurrence, type, id } = incomeDto;
-        const income = new Income();
-        income.id = id.toString() === "" ? null : id;
-        income.userId = userId;
-        income.currentAmount = currentAmount;
-        income.goalAmount = goalAmount;
-        income.type = type;
-        income.recurrence = Recurrence[recurrence];
-        return income;
-    }
+    // public static incomeEntityFromDto(incomeDto: CreateIncomeDto, userId: number): Income {
+    //     const { currentAmount, goalAmount, recurrence, type, id } = incomeDto;
+    //     const income = new Income();
+    //     income.id = id.toString() === "" ? null : id;
+    //     income.userId = userId;
+    //     income.currentAmount = currentAmount;
+    //     income.goalAmount = goalAmount;
+    //     income.type = type;
+    //     income.recurrence = Recurrence[recurrence];
+    //     return income;
+    // }
 
 
 
@@ -67,6 +72,6 @@ export class CreateIncomeDto {
         console.log("this: ", JSON.stringify(this));
         return true;
     }
-    
+
 }
 

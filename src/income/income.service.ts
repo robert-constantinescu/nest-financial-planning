@@ -1,20 +1,32 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import {InjectRepository} from "@nestjs/typeorm";
 import {IncomeRepository} from "./income.repository";
 import {Income} from "../entities/income.entity";
-import {DeleteResult} from "typeorm";
+import {CreateIncomeDto} from "../dto/create-income.dto";
+import {UpdateIncomeDto} from "../dto/update-income.dto";
+import {UserService} from "../user/user.service";
+import {getRepository} from "typeorm";
+import {User} from "../entities/user.entity";
+import {type} from "os";
 
 @Injectable()
 export class IncomeService {
 
 
-    constructor(@InjectRepository(IncomeRepository) private incomeRepository: IncomeRepository) {
+    constructor(
+        private readonly incomeRepository: IncomeRepository,
+        private readonly userService: UserService) {
     }
 
-    public async create(income: Income, userId: number): Promise<Income> {
+    public async create(incomeDto: CreateIncomeDto, userId: number): Promise<Income> {
         try {
-            const newIncome = await this.incomeRepository.addIncome(income);
-            return newIncome;
+            console.log('create');
+            let user;
+            Promise.resolve(this.userService.findById(userId)).then(userFromPromise => user = userFromPromise);
+            const income = this.incomeRepository.create(
+                {...incomeDto, user: user}
+            );
+            console.log('create')
+            return await this.incomeRepository.save(income);
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }
@@ -30,37 +42,42 @@ export class IncomeService {
         }
     }
 
-    public async saveIncomeList(incomeList: Income[], userId): Promise<void> {
+    public async createNewIncomesList(incomeDtoList: CreateIncomeDto[], userId): Promise<void> {
         try {
-            for (let requestIncome of incomeList) {
-                if (requestIncome.id == null) {
-                    requestIncome.id = 0;
-                    await this.create(requestIncome, userId)
-                } else {
-                    const incomeFromDb = await this.incomeRepository.findOne(requestIncome.id);
-                    if (!requestIncome.equals(incomeFromDb)) {
-                        await this.update(requestIncome);
-                    }
-                }
+            for (let incomeDto of incomeDtoList) {
+                console.log('create income')
+                await this.create(incomeDto, userId)
             }
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }
     }
 
+    public async updateIncomeList(incomeDtoList: UpdateIncomeDto[]){
+        for (let dto of incomeDtoList ) {
+            await this.update(dto);
+        }
+    }
+
 
     public async getIncomeList(userId: number): Promise<Income[]> {
         try {
-            const incomeList = await this.incomeRepository.findAll(userId);
-            return incomeList;
+            return this.incomeRepository.findAllByUserId(userId);
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }
     }
 
-    public async update(requestIncome: Income) {
+    public async update(updateIncomeDto: UpdateIncomeDto) {
+        const existingIncome = await this.incomeRepository.preload({
+            id: +updateIncomeDto.id,
+            ...updateIncomeDto
+        })
+        if (!existingIncome) {
+            throw new HttpException(`Income with ${updateIncomeDto.id} was not found`, HttpStatus.NOT_FOUND)
+        }
         try {
-            return await this.incomeRepository.updateIncome(requestIncome);
+            return await this.incomeRepository.updateIncome(updateIncomeDto);
         }catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
         }

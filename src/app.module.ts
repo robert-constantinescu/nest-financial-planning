@@ -1,18 +1,19 @@
-import {HttpException, Module} from '@nestjs/common';
+import {HttpException, Module, ValidationPipe} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
-import {APP_FILTER, APP_GUARD, APP_INTERCEPTOR} from '@nestjs/core';
+import {APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE} from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { IncomeModule } from './income/income.module';
 import { ExpenseModule } from './expense/expense.module';
 import {ResponseInterceptor} from "./common/interceptors/response.interceptor";
-import {AllExceptionsFilter} from "./common/interceptors/exception.interceptor";
+import {AllExceptionsFilter} from "./common/filters/exception.filter";
+import { CommonModule } from './common/common.module';
 
 @Module({
-  imports: [UserModule, AuthModule, TypeOrmModule.forRoot(), IncomeModule, ExpenseModule],
+  imports: [UserModule, AuthModule, TypeOrmModule.forRoot(), IncomeModule, ExpenseModule, CommonModule],
   controllers: [AppController],
   providers: [
     AppService,

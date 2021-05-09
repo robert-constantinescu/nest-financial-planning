@@ -4,7 +4,7 @@ import {Body, Controller, Post, Request, UseInterceptors} from "@nestjs/common";
 // import {ResponseInterceptor} from "../common/interceptors/response.interceptor";
 
 
-@Controller('/api/auth')
+@Controller('/auth')
 export class AuthController {
 
     constructor(
@@ -14,7 +14,7 @@ export class AuthController {
     @NoAuth()
     @Post('login')
     async login(@Request() req) {
-        console.log(req);
+        console.log('/api/v1/auth/login');
         return this.authService.login(req.body);
     }
 

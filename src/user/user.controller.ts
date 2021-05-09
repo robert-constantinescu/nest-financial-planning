@@ -5,7 +5,7 @@ import {User} from "../entities/user.entity";
 import {NoAuth} from "../auth/no-auth.decorator";
 import {ApiBearerAuth} from "@nestjs/swagger";
 
-@Controller('/api/user')
+@Controller('/user')
 @ApiBearerAuth()
 export class UserController {
 

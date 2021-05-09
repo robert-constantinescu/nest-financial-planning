@@ -1,7 +1,6 @@
 import {Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn} from "typeorm";
 import {Recurrence} from "../common/constants/recurrence.enum";
 import {User} from "./user.entity";
-import {Transform} from "class-transformer";
 
 @Entity()
 export class Income {
@@ -11,7 +10,7 @@ export class Income {
 
     @ManyToOne(() => User, (user) => user.incomes)
     @JoinColumn({name: 'user_id'})
-    userId: number;
+    user: User;
 
     @Column({name: 'current_amount'})
     currentAmount: number;

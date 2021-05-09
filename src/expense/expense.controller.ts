@@ -3,7 +3,7 @@ import {ExpenseService} from './expense.service';
 import {CreateExpenseDto} from "../dto/create-expense.dto";
 import {Expense} from "../entities/expense.entity";
 
-@Controller('/api/expense')
+@Controller('/expense')
 export class ExpenseController {
   constructor(private readonly expenseService: ExpenseService) {}
 
