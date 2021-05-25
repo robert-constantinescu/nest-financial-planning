@@ -19,13 +19,11 @@ export class IncomeService {
 
     public async create(incomeDto: CreateIncomeDto, userId: number): Promise<Income> {
         try {
-            console.log('create');
             let user;
             Promise.resolve(this.userService.findById(userId)).then(userFromPromise => user = userFromPromise);
             const income = this.incomeRepository.create(
                 {...incomeDto, user: user}
             );
-            console.log('create')
             return await this.incomeRepository.save(income);
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST);
@@ -45,7 +43,6 @@ export class IncomeService {
     public async createNewIncomesList(incomeDtoList: CreateIncomeDto[], userId): Promise<void> {
         try {
             for (let incomeDto of incomeDtoList) {
-                console.log('create income')
                 await this.create(incomeDto, userId)
             }
         } catch (err) {

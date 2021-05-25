@@ -13,10 +13,9 @@ export class IncomeController {
     }
 
     @Post()
-    public async create(@Body() createIncomeDto: CreateIncomeDto): Promise<Income> {
+    public async create(@Body() createIncomeDto: CreateIncomeDto, @User() userId): Promise<Income> {
         console.log(createIncomeDto instanceof CreateIncomeDto)
         try {
-            const userId = 1;
             return await this.incomeService.create(createIncomeDto, userId);
         } catch (err) {
             throw new HttpException(err, HttpStatus.BAD_REQUEST)
